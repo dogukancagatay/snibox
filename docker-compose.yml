@@ -1,0 +1,46 @@
+version: "3"
+services:
+
+  db:
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_DB: snibox
+      POSTGRES_USER: snibox
+      POSTGRES_PASSWORD: snibox
+    # ports:
+    #   - "5432:5432"
+    # volumes:
+    #   - pg-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build: ./
+    image: dcagatay/snibox:latest
+    depends_on:
+      - db
+    environment:
+      DISABLE_AUTH: "true"
+      MAILGUN_SMTP_PORT: "587"
+      MAILGUN_SMTP_SERVER: "smtp.mailgun.org"
+      MAILGUN_SMTP_LOGIN: ""
+      MAILGUN_SMTP_PASSWORD: ""
+      MAILGUN_API_KEY: ""
+      MAILGUN_DOMAIN: ""
+      SECRET_KEY_BASE: ""
+    volumes:
+      - static-files:/static
+    restart: unless-stopped
+
+  frontend:
+    image: snibox/nginx-puma:1.15.9
+    depends_on:
+      - backend
+    ports:
+      - "8000:80"
+    volumes:
+      - static-files:/var/www/html
+    restart: unless-stopped
+
+volumes:
+  static-files:
+  pg-data:

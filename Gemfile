@@ -48,4 +48,6 @@ group :test do
   gem 'webdrivers', '~> 3.0'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '22c06826417ed67c02b94ebc9998c24da5a03c56' # d5ebc0cd846dcc68142622c76ad71d021768b7c2
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: 'd5ebc0cd846dcc68142622c76ad71d021768b7c2'
+gem 'tzinfo-data'
